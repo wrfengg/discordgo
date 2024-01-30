@@ -353,6 +353,16 @@ func (i *InteractionCreate) UnmarshalJSON(b []byte) error {
 	return json.Unmarshal(b, &i.Interaction)
 }
 
+// InteractionCreate is the data for a InteractionCreate event
+type InteractionIframeModalCreate struct {
+	*InteractionIframeModal
+}
+
+// UnmarshalJSON is a helper function to unmarshal Interaction object.
+func (i *InteractionIframeModalCreate) UnmarshalJSON(b []byte) error {
+	return json.Unmarshal(b, &i.InteractionIframeModal)
+}
+
 // InviteCreate is the data for a InviteCreate event
 type InviteCreate struct {
 	*Invite

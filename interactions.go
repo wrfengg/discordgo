@@ -237,6 +237,17 @@ type Interaction struct {
 	Version int    `json:"version"`
 }
 
+type InteractionIframeModal struct {
+	Title     string `json:"title"`
+	Nonce     string `json:"nonce"`
+	ModalSize int64  `json:"modal_size"`
+	ID        string `json:"id"`
+	CustomID  string `json:"custom_id"`
+	ChannelID string `json:"channel_id"`
+}
+
+type interactionIframeModal InteractionIframeModal
+
 type interaction Interaction
 
 type rawInteraction struct {

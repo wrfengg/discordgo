@@ -40,6 +40,7 @@ const (
 	guildScheduledEventUserRemoveEventType       = "GUILD_SCHEDULED_EVENT_USER_REMOVE"
 	guildUpdateEventType                         = "GUILD_UPDATE"
 	interactionCreateEventType                   = "INTERACTION_CREATE"
+	interactionIframeModalCreateEventType        = "INTERACTION_IFRAME_MODAL_CREATE"
 	inviteCreateEventType                        = "INVITE_CREATE"
 	inviteDeleteEventType                        = "INVITE_DELETE"
 	messageCreateEventType                       = "MESSAGE_CREATE"
@@ -715,6 +716,26 @@ func (eh interactionCreateEventHandler) Handle(s *Session, i interface{}) {
 	}
 }
 
+// interactionIframeModalCreateEventHandler is an event handler for interactionIframeModalCreate events.
+type interactionIframeModalCreateEventHandler func(*Session, *InteractionIframeModalCreate)
+
+// Type returns the event type for InteractionIframeModalCreate events.
+func (eh interactionIframeModalCreateEventHandler) Type() string {
+	return interactionIframeModalCreateEventType
+}
+
+// New returns a new instance of InteractionCreate.
+func (eh interactionIframeModalCreateEventHandler) New() interface{} {
+	return &InteractionIframeModalCreate{}
+}
+
+// Handle is the handler for InteractionIframeModalCreate events.
+func (eh interactionIframeModalCreateEventHandler) Handle(s *Session, i interface{}) {
+	if t, ok := i.(*InteractionIframeModalCreate); ok {
+		eh(s, t)
+	}
+}
+
 // inviteCreateEventHandler is an event handler for InviteCreate events.
 type inviteCreateEventHandler func(*Session, *InviteCreate)
 
@@ -1340,6 +1361,8 @@ func handlerForInterface(handler interface{}) EventHandler {
 		return guildUpdateEventHandler(v)
 	case func(*Session, *InteractionCreate):
 		return interactionCreateEventHandler(v)
+	case func(*Session, *InteractionIframeModalCreate):
+		return interactionIframeModalCreateEventHandler(v)
 	case func(*Session, *InviteCreate):
 		return inviteCreateEventHandler(v)
 	case func(*Session, *InviteDelete):
@@ -1432,6 +1455,7 @@ func init() {
 	registerInterfaceProvider(guildScheduledEventUserRemoveEventHandler(nil))
 	registerInterfaceProvider(guildUpdateEventHandler(nil))
 	registerInterfaceProvider(interactionCreateEventHandler(nil))
+	registerInterfaceProvider(interactionIframeModalCreateEventHandler(nil))
 	registerInterfaceProvider(inviteCreateEventHandler(nil))
 	registerInterfaceProvider(inviteDeleteEventHandler(nil))
 	registerInterfaceProvider(messageCreateEventHandler(nil))

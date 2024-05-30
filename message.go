@@ -148,8 +148,8 @@ type Message struct {
 	// The thread that was started from this message, includes thread member object
 	Thread *Channel `json:"thread,omitempty"`
 
-	// An array of Sticker objects, if any were sent.
-	StickerItems []*Sticker `json:"sticker_items"`
+	// An array of StickerItem objects, representing sent stickers, if there were any.
+	StickerItems []*StickerItem `json:"sticker_items"`
 
 	Nonce string `json:"nonce,omitempty"`
 }
@@ -253,8 +253,8 @@ type MessageSend struct {
 // is also where you should get the instance from.
 type MessageEdit struct {
 	Content         *string                 `json:"content,omitempty"`
-	Components      []MessageComponent      `json:"components"`
-	Embeds          []*MessageEmbed         `json:"embeds"`
+	Components      *[]MessageComponent     `json:"components,omitempty"`
+	Embeds          *[]*MessageEmbed        `json:"embeds,omitempty"`
 	AllowedMentions *MessageAllowedMentions `json:"allowed_mentions,omitempty"`
 	Flags           MessageFlags            `json:"flags,omitempty"`
 	// Files to append to the message
@@ -288,14 +288,14 @@ func (m *MessageEdit) SetContent(str string) *MessageEdit {
 // SetEmbed is a convenience function for setting the embed,
 // so you can chain commands.
 func (m *MessageEdit) SetEmbed(embed *MessageEmbed) *MessageEdit {
-	m.Embeds = []*MessageEmbed{embed}
+	m.Embeds = &[]*MessageEmbed{embed}
 	return m
 }
 
 // SetEmbeds is a convenience function for setting the embeds,
 // so you can chain commands.
 func (m *MessageEdit) SetEmbeds(embeds []*MessageEmbed) *MessageEdit {
-	m.Embeds = embeds
+	m.Embeds = &embeds
 	return m
 }
 
